@@ -10,7 +10,7 @@ Linked Facts is a lightweight library for analyzing events relationships. It pro
 
 The goal of this project was to provide results using a data structure of linked events that can easily be subject of further data processing.
 
-Linked Facts library exposes the following main functions for analyzing events
+Linked Facts library provides the following main functions for analyzing events
 - lfx-lazy - for lazy processing
 - lfx-gr - for processing source data grouped in smaller chunks. This is the recommended function for non-lazy processing of large - collections
 - lfx-s - for processing events stored in a single collection
@@ -21,8 +21,8 @@ In order to analyze events one needs to define criteria for events matching whic
 
 ```clojure
 (lfx-lazy
-    src-coll
-    #(and (> (:value %1) (:value %2)) (> (:value %2) 400) (= 7 (tdiff %1 %2)))
+  src-coll
+  #(and (> (:value %1) (:value %2)) (> (:value %2) 400) (= 7 (tdiff %1 %2)))
 ```
 
 This function defines a matching criterion saying the value of the first transaction event is greater than the value of the second one, the value of the second one is greater than 400 and  the second event occurs 7 days after the first one. By default the tdiff comparison function compares the temporal difference in days between two events but it can also use a different time interval supported by the java.time API which has to be supplied as the third argument (see example.clj for details).
