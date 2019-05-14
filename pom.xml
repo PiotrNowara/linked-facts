@@ -3,9 +3,15 @@
   <groupId>linked-facts</groupId>
   <artifactId>linked-facts</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
   <name>linked-facts</name>
-  <description>FIXME: write description</description>
+  <description>A lightweight library for analyzing events relationships</description>
+  <url>https://github.com/PiotrNowara/linked-facts</url>
+  <licenses>
+    <license>
+      <name>Eclipse Public License 1.0</name>
+    </license>
+  </licenses>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
@@ -53,26 +59,6 @@
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
       <version>1.8.0</version>
-    </dependency>
-    <dependency>
-      <groupId>tesser.core</groupId>
-      <artifactId>tesser.core</artifactId>
-      <version>1.0.3</version>
-    </dependency>
-    <dependency>
-      <groupId>clojure-csv</groupId>
-      <artifactId>clojure-csv</artifactId>
-      <version>2.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>clj-time</groupId>
-      <artifactId>clj-time</artifactId>
-      <version>0.14.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.clojure</groupId>
-      <artifactId>data.csv</artifactId>
-      <version>0.1.4</version>
     </dependency>
   </dependencies>
 </project>
