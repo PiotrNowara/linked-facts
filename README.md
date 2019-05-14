@@ -27,9 +27,7 @@ In order to analyze events one needs to define criteria for events matching whic
 
 This function defines a matching criterion saying the value of the first transaction event is greater than the value of the second one, the value of the second one is greater than 400 and  the second event occurs 7 days after the first one. By default the tdiff comparison function compares the temporal difference in days between two events but it can also use a different time interval supported by the java.time API which has to be supplied as the third argument (see example.clj for details).
 
-## Examples
-
-Examples
+## Usage
 
 Below examples assume src-colls a record (or map) with keys used in the function calls. Let’s assume it contains a simple record of customer transaction data and create some testing data (see the example.clj file for more details):
 
@@ -124,7 +122,7 @@ The results in the above case will have the same overall structure, but the orig
      :value 2919})}
 ```
 
-## Usage
+## Dependencies
 
 ```
 <dependency>
@@ -132,4 +130,8 @@ The results in the above case will have the same overall structure, but the orig
   <artifactId>linked-facts</artifactId>
   <version>0.1.0-SNAPSHOT</version>
 </dependency>
+```
+
+```
+[linked-facts "0.1.0-SNAPSHOT"]
 ```
