@@ -32,50 +32,49 @@ This function defines a matching criterion saying the value of the first transac
 Below examples assume src-colls a record (or map) with keys used in the function calls. Let’s assume it contains a simple record of customer transaction data and create some testing data (see the example.clj file for more details):
 
 ```clojure
-(defrecord Fact [id cust-id date value])
-(def src-coll (for [i (range 1 10001)] (linked_facts.core.Fact. i (+ 1 (rand-int 10)) (f/parse (str "2018-" (+ 1 (rand-int 12)) "-" (+ 1 (rand-int 27)))) (rand-int 3000))))
+(defrecord Fact [id cust-id date value]);records should have better performance than ordinary maps
+(def src-coll (for [i (range 1 10001)] (linked_facts.core.Fact. i (+ 1 (rand-int 10)) (java.time.LocalDate/of 2018 (+ 1 (rand-int 12)) (+ 1 (rand-int 27))) (rand-int 3000))))
 
-(take 1
+(clojure.pprint/pprint 
+ (take 1
   (lfx-lazy
     src-coll
     #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (> (:value %1) 400) (= 21 (tdiff %1 %2)))
     #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (tdiff %2 %3)))
-    #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 1 (tdiff %4 %3)))))
+    #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 1 (tdiff %4 %3))))))
 ```
 
 Example output:
 
 ```clojure
-({[{:id 1,
-    :cust-id 8,
-    :date
-    #object[org.joda.time.DateTime 0x11a65a0e "2017-07-16T00:00:00.000Z"],
-    :value 1125}
-   {:id 8161,
-    :cust-id 8,
-    :date
-    #object[org.joda.time.DateTime 0x7437404b "2017-08-06T00:00:00.000Z"],
-    :value 651}
-   {:id 9586,
-    :cust-id 8,
-    :date
-    #object[org.joda.time.DateTime 0x1c284680 "2017-08-07T00:00:00.000Z"],
-    :value 2500}]
-  ({:id 8161,
-    :cust-id 8,
-    :date
-    #object[org.joda.time.DateTime 0x7437404b "2017-08-06T00:00:00.000Z"],
-    :value 651}
-   {:id 6958,
-    :cust-id 8,
-    :date
-    #object[org.joda.time.DateTime 0x25200dee "2017-08-06T00:00:00.000Z"],
-    :value 233}
-   {:id 4418,
-    :cust-id 8,
-    :date
-    #object[org.joda.time.DateTime 0x6f5456e "2017-08-06T00:00:00.000Z"],
-    :value 279})})
+({[{:id 3,
+    :cust-id 6,
+    :date #object[java.time.LocalDate 0x38709177 "2018-12-23"],
+    :value 1901}
+   {:id 9559,
+    :cust-id 6,
+    :date #object[java.time.LocalDate 0x10ed04ca "2018-12-02"],
+    :value 915}
+   {:id 9470,
+    :cust-id 6,
+    :date #object[java.time.LocalDate 0x36e552e2 "2018-12-01"],
+    :value 1102}]
+  ({:id 9559,
+    :cust-id 6,
+    :date #object[java.time.LocalDate 0x10ed04ca "2018-12-02"],
+    :value 915}
+   {:id 8947,
+    :cust-id 6,
+    :date #object[java.time.LocalDate 0x314a168a "2018-12-02"],
+    :value 2061}
+   {:id 7837,
+    :cust-id 6,
+    :date #object[java.time.LocalDate 0x1b948363 "2018-12-02"],
+    :value 2467}
+   {:id 3160,
+    :cust-id 6,
+    :date #object[java.time.LocalDate 0x332c1387 "2018-12-02"],
+    :value 1275})})
 ```
 
 Here’s a example of grouping the event data for analysis which is recommended for larger datasets.
@@ -88,38 +87,33 @@ Here’s a example of grouping the event data for analysis which is recommended 
      #(and (> (:value %1) (:value %2)) (= 7 (tdiff %1 %2)))
      #(and (> (:value %2) (:value %3)) (= 7 (tdiff %2 %3)))
      #(and (> (:value %4) 2000) (= 29 (tdiff %4 %3)))
-     #(and (> (:value %5) 2900) (= 10 (tdiff %4 %5)))))
+     #(and (> (:value %5) 1900) (= 10 (tdiff %4 %5)))))
   (vals (group-by :cust-id src-coll)))))
 ```
 
 The results in the above case will have the same overall structure, but the original grouping will be preserved which results in the nesting being one level deeper (so you might need to call mapcat identity on the result set to get rid of the grouping when it’s not needed). Example output:
 
 ```clojure
-{[{:id 61,
-     :cust-id 7,
-     :date
-     #object[org.joda.time.DateTime 0x5dd6bd79 "2017-02-11T00:00:00.000Z"],
-     :value 1488}
-    {:id 8296,
-     :cust-id 7,
-     :date
-     #object[org.joda.time.DateTime 0x2183cbb9 "2017-02-18T00:00:00.000Z"],
-     :value 555}
-    {:id 2450,
-     :cust-id 7,
-     :date
-     #object[org.joda.time.DateTime 0x75465746 "2017-02-25T00:00:00.000Z"],
-     :value 20}
-    {:id 3111,
-     :cust-id 7,
-     :date
-     #object[org.joda.time.DateTime 0x5b043bc6 "2017-01-27T00:00:00.000Z"],
-     :value 2247}]
-   ({:id 2377,
-     :cust-id 7,
-     :date
-     #object[org.joda.time.DateTime 0x33d168aa "2017-02-06T00:00:00.000Z"],
-     :value 2919})}
+({[{:id 39905,
+    :cust-id 487,
+    :date #object[java.time.LocalDate 0x395b1590 "2018-06-10"],
+    :value 2254}
+   {:id 23283,
+    :cust-id 487,
+    :date #object[java.time.LocalDate 0x3f0cb888 "2018-06-03"],
+    :value 1946}
+   {:id 9967,
+    :cust-id 487,
+    :date #object[java.time.LocalDate 0x3e9488b "2018-05-27"],
+    :value 796}
+   {:id 4196,
+    :cust-id 487,
+    :date #object[java.time.LocalDate 0x7655e5eb "2018-06-25"],
+    :value 2258}]
+  ({:id 65791,
+    :cust-id 487,
+    :date #object[java.time.LocalDate 0x593c6450 "2018-06-15"],
+    :value 2997})})
 ```
 
 ## Dependencies
