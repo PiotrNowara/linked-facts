@@ -19,10 +19,10 @@ The way of using lfs-b and lfx-lazy is the same. The lfx-gr function expects the
 
 In order to analyze events one needs to define criteria for events matching which is as simple as defining an anonymous predicate function, for example:
 
-```
+```clojure
 (lfx-lazy
     src-coll
-    **#(and (> (:value %1) (:value %2)) (> (:value %2) 400) (= 7 (tdiff %1 %2)))**
+    #(and (> (:value %1) (:value %2)) (> (:value %2) 400) (= 7 (tdiff %1 %2)))
 ```
 
 This function defines a matching criterion saying the value of the first transaction event is greater than the value of the second one, the value of the second one is greater than 400 and  the second event occurs 7 days after the first one. By default the tdiff comparison function compares the temporal difference in days between two events but it can also use a different time interval supported by the java.time API which has to be supplied as the third argument (see example.clj for details).
@@ -33,7 +33,7 @@ Examples
 
 Below examples assume src-colls a record (or map) with keys used in the function calls. Let’s assume it contains a simple record of customer transaction data and create some testing data (see the example.clj file for more details):
 
-```
+```clojure
 (defrecord Fact [id cust-id date value])
 (def src-coll (for [i (range 1 10001)] (linked_facts.core.Fact. i (+ 1 (rand-int 10)) (f/parse (str "2018-" (+ 1 (rand-int 12)) "-" (+ 1 (rand-int 27)))) (rand-int 3000))))
 
@@ -47,7 +47,7 @@ Below examples assume src-colls a record (or map) with keys used in the function
 
 Example output:
 
-```
+```clojure
 ({[{:id 1,
     :cust-id 8,
     :date
@@ -82,7 +82,7 @@ Example output:
 
 Here’s a example of grouping the event data for analysis which is recommended for larger datasets.
 
-```
+```clojure
 (def t1 (doall
  (pmap
   (fn [cust-data]
@@ -96,7 +96,7 @@ Here’s a example of grouping the event data for analysis which is recommended 
 
 The results in the above case will have the same overall structure, but the original grouping will be preserved which results in the nesting being one level deeper (so you might need to call mapcat identity on the result set to get rid of the grouping when it’s not needed). Example output:
 
-```
+```clojure
 {[{:id 61,
      :cust-id 7,
      :date
