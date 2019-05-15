@@ -134,5 +134,6 @@ The results in the above case will have the same overall structure, but the orig
 Please contact me if you have any question or feedback.
 
 Piotr Nowara 
-piotrnowara[at]wp.pl
+piotrnowara/[at/]wp.pl
+
 https://www.linkedin.com/in/piotr-nowara-35040121/
