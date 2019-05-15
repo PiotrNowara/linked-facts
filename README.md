@@ -44,7 +44,7 @@ Below examples assume src-colls a record (or map) with keys used in the function
     #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 1 (tdiff %4 %3))))))
 ```
 
-Example output:
+Example output showing the chain of linked facts corresponding to the filters defined in the above function call. In this case four events were matched at the last level:
 
 ```clojure
 ({[{:id 3,
