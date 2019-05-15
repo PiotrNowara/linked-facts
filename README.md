@@ -41,7 +41,7 @@ Below examples assume src-colls a record (or map) with keys used in the function
     src-coll
     #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (> (:value %1) 400) (= 21 (tdiff %1 %2)))
     #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (tdiff %2 %3)))
-    #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 1 (tdiff %4 %3))))))
+    #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 2 (tdiff %4 %3))))))
 ```
 
 Example output showing the chain of linked facts corresponding to the filters defined in the above function call. In this case four events were matched at the last level:
@@ -59,21 +59,21 @@ Example output showing the chain of linked facts corresponding to the filters de
     :cust-id 6,
     :date #object[java.time.LocalDate 0x36e552e2 "2018-12-01"],
     :value 1102}]
-  ({:id 9559,
+  ({:id 59,
     :cust-id 6,
-    :date #object[java.time.LocalDate 0x10ed04ca "2018-12-02"],
-    :value 915}
+    :date #object[java.time.LocalDate 0x10ed04ca "2018-12-03"],
+    :value 1910}
    {:id 8947,
     :cust-id 6,
-    :date #object[java.time.LocalDate 0x314a168a "2018-12-02"],
+    :date #object[java.time.LocalDate 0x314a168a "2018-12-03"],
     :value 2061}
    {:id 7837,
     :cust-id 6,
-    :date #object[java.time.LocalDate 0x1b948363 "2018-12-02"],
+    :date #object[java.time.LocalDate 0x1b948363 "2018-12-03"],
     :value 2467}
    {:id 3160,
     :cust-id 6,
-    :date #object[java.time.LocalDate 0x332c1387 "2018-12-02"],
+    :date #object[java.time.LocalDate 0x332c1387 "2018-12-03"],
     :value 1275})})
 ```
 
