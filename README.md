@@ -1,4 +1,4 @@
-# linked-facts
+# Linked Facts
 
 Linked Facts is a lightweight library for analyzing events relationships. It provides:
 - functional approach (no macros)
@@ -77,7 +77,7 @@ Example output showing the chain of linked facts corresponding to the filters de
     :value 1275})})
 ```
 
-Here’s a example of grouping the event data for analysis which is recommended for larger datasets.
+Here’s a example of grouping the event data for analysis which is recommended for larger datasets:
 
 ```clojure
 (def t1 (doall
@@ -129,3 +129,10 @@ The results in the above case will have the same overall structure, but the orig
 ```
 [linked-facts "0.1.0-SNAPSHOT"]
 ```
+## Author
+
+Please contact me if you have any question or feedback.
+
+Piotr Nowara 
+piotrnowara[at]wp.pl
+https://www.linkedin.com/in/piotr-nowara-35040121/
