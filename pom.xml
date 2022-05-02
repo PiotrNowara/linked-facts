@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>linked-facts</groupId>
   <artifactId>linked-facts</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
   <name>linked-facts</name>
   <description>A lightweight library for analyzing events relationships</description>
   <url>https://github.com/PiotrNowara/linked-facts</url>
@@ -12,6 +13,12 @@
       <name>Eclipse Public License 1.0</name>
     </license>
   </licenses>
+  <scm>
+    <url>https://github.com/PiotrNowara/linked-facts</url>
+    <connection>scm:git:git://github.com/PiotrNowara/linked-facts.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/PiotrNowara/linked-facts.git</developerConnection>
+    <tag>0a3783ec68aa8d7d4212a0097af9680254c87b2c</tag>
+  </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
@@ -42,7 +49,7 @@
     </repository>
     <repository>
       <id>clojars</id>
-      <url>https://clojars.org/repo/</url>
+      <url>https://repo.clojars.org/</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -58,7 +65,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.3</version>
     </dependency>
   </dependencies>
 </project>
