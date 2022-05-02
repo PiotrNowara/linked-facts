@@ -122,12 +122,12 @@ The results in the above case will have the same overall structure, but the orig
 <dependency>
   <groupId>linked-facts</groupId>
   <artifactId>linked-facts</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
 ```
-[linked-facts "0.1.0-SNAPSHOT"]
+[linked-facts "0.2.0-SNAPSHOT"]
 ```
 ## Author
 
@@ -135,6 +135,6 @@ Please contact me if you have any question or feedback.
 
 Piotr Nowara 
 
-piotrnowara[at]wp.pl
+piotrnowara[at]gmail.com
 
 https://www.linkedin.com/in/piotr-nowara-35040121/
