@@ -2,7 +2,7 @@
 
 Linked Facts is a lightweight library for analyzing events relationships. It provides:
 - functional approach (no macros)
-- lightweight design (no external dependencies)
+- lightweight design (minimum external dependencies)
 - simple way of defining related events using built-in Clojure predicate functions 
 - in-memory processing of event data stored in Clojure records or hash-maps using lazy or reducers-based functions
 
@@ -12,10 +12,10 @@ The goal of this project was to provide results using a data structure of linked
 
 Linked Facts library provides the following main functions for analyzing events
 - lfx-lazy - for lazy processing
-- lfx-gr - for processing source data grouped in smaller chunks. This is the recommended function for non-lazy processing of large - collections
+- lfx-gr - for processing source data grouped in smaller chunks. This is the recommended function for non-lazy processing of larger collections
 - lfx-s - for processing events stored in a single collection
 
-The way of using lfs-b and lfx-lazy is the same. The lfx-gr function expects the source collection to be a wrapper of the actual event data (for example in case of customer data one can group data by customer id - just like in the example below) and it returns grouped data.
+The way of using lfx-s and lfx-lazy is the same (besides the laziness aspect). The lfx-gr function expects the source collection to be a wrapper of the actual event data (for example in case of customer data one can group data by customer id - just like in the example below) and it returns grouped data.
 
 In order to analyze events one needs to define criteria for events matching which is as simple as defining an anonymous predicate function, for example:
 
