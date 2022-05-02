@@ -59,30 +59,6 @@
      initcoll)))
 
 
-;; Fastest with grouping (pmap on grouping), very slow without grouping (no pmap).
-(defn lfx-gr
-  [initcoll & filters]
-  (let [filtercount (count filters)]
-    (loop [lfcoll [] i 0];lfcoll  is a collwith accumulated results of each level
-      (if (= i filtercount)
-        lfcoll
-        (cond
-          (= i 0)
-          (recur (into [] (r/map (fn [fact] (lf1 fact (nth filters i) initcoll)) initcoll)) (inc i))
-          :else
-          (recur
-           (into []
-            (r/mapcat
-             (fn [currfacts]
-               (let [klist (first (keys currfacts))];a b
-                 (r/map
-                  (fn [last-match];events matched in previous level
-                    (lf2+ klist last-match (nth filters i) initcoll))
-                  (get currfacts klist))))
-             lfcoll))
-           (inc i)))))))
-
-
 ;; It's the fastes with big chunks of data without frouping.
 (defn lfx-s
   [initcoll & filters]
@@ -115,7 +91,7 @@
       (if (= i filtercount)
         lfcoll
         (if (= i 0)
-          (recur (into [] (r/filter not-empty (r/map (fn [fact] (lf1 fact (nth filters i) initcoll)) initcoll)) (inc i)) (inc i))
+          (recur (into [] (r/filter not-empty (r/map (fn [fact] (lf1 fact (nth filters i) initcoll)) initcoll))) (inc i))
           (recur
            (into []
                  (r/filter

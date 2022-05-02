@@ -11,16 +11,16 @@ Linked Facts is a lightweight library for analyzing events relationships. It pro
 The goal of this project was to provide results using a data structure of linked events that can easily be subject of further data processing.
 
 Linked Facts library provides the following main functions for analyzing events
-- lfx-lazy - for lazy processing
-- lfx-gr - for processing source data grouped in smaller chunks. This is the recommended function for non-lazy processing of larger collections
 - lfx-s - for processing events stored in a single collection
+- lfx-gr - for processing source data grouped in smaller chunks. This is the recommended function for non-lazy processing of larger collections
+- lfx-lazy - for lazy processing
 
 The way of using lfx-s and lfx-lazy is the same (besides the laziness aspect). The lfx-gr function expects the source collection to be a wrapper of the actual event data (for example in case of customer data one can group data by customer id - just like in the example below) and it returns grouped data.
 
 In order to analyze events one needs to define criteria for events matching which is as simple as defining an anonymous predicate function, for example:
 
 ```clojure
-(lfx-lazy
+(lfx-s
   src-coll
   #(and (> (:value %1) (:value %2)) (> (:value %2) 400) (= 7 (tdiff %1 %2)))
 ```
@@ -33,15 +33,15 @@ Below examples assume src-colls a record (or map) with keys used in the function
 
 ```clojure
 (defrecord Fact [id cust-id date value]);records should have better performance than ordinary maps
-(def src-coll (for [i (range 1 10001)] (linked_facts.core.Fact. i (+ 1 (rand-int 10)) (java.time.LocalDate/of 2018 (+ 1 (rand-int 12)) (+ 1 (rand-int 27))) (rand-int 3000))))
+(def src-coll (for [i (range 1 10001)] (linked_facts.core.Fact. i (+ 1 (rand-int 50)) (java.time.LocalDate/of 2018 (+ 1 (rand-int 12)) (+ 1 (rand-int 27))) (rand-int 3000))))
 
-(clojure.pprint/pprint 
+(clojure.pprint/pprint
  (take 1
-  (lfx-lazy
-    src-coll
-    #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (> (:value %1) 400) (= 21 (tdiff %1 %2)))
-    #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (tdiff %2 %3)))
-    #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 2 (tdiff %4 %3))))))
+       (lfx-s
+        src-coll
+        #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (> (:value %1) 400) (= 21 (tdiff-cached %1 %2)))
+        #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (tdiff-cached %2 %3)))
+        #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 2 (tdiff-cached %4 %3))))))
 ```
 
 Example output showing the chain of linked facts corresponding to the filters defined in the above function call. In this case four events were matched at the last level:
