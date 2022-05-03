@@ -64,3 +64,4 @@ target/stale/leiningen.core.classpath.extract-native-dependencies
 .clj-kondo/.cache/v1/clj/nrepl.version.transit.json
 .lsp/.cache/db.transit.json
 .nrepl-port
+.clj-kondo/.cache/v1/clj/user.transit.json

@@ -22,7 +22,7 @@ In order to analyze events one needs to define criteria for events matching whic
 ```clojure
 (lfx-s
   src-coll
-  #(and (> (:value %1) (:value %2)) (> (:value %2) 400) (= 7 (tdiff %1 %2)))
+  #(and (> (:value %1) (:value %2)) (> (:value %2) 400) (= 7 (tdiff-cached %1 %2)))
 ```
 
 This function defines a matching criterion saying the value of the first transaction event is greater than the value of the second one, the value of the second one is greater than 400 and  the second event occurs 7 days after the first one. By default the tdiff comparison function compares the temporal difference in days between two events but it can also use a different time interval supported by the java.time API which has to be supplied as the third argument (see example.clj for details).
@@ -84,10 +84,10 @@ Here’s a example of grouping the event data for analysis which is recommended 
  (pmap
   (fn [cust-data]
     (lfx-gr cust-data
-     #(and (> (:value %1) (:value %2)) (= 7 (tdiff %1 %2)))
-     #(and (> (:value %2) (:value %3)) (= 7 (tdiff %2 %3)))
-     #(and (> (:value %4) 2000) (= 29 (tdiff %4 %3)))
-     #(and (> (:value %5) 1900) (= 10 (tdiff %4 %5)))))
+     #(and (> (:value %1) (:value %2)) (= 7 (tdiff-cached %1 %2)))
+     #(and (> (:value %2) (:value %3)) (= 7 (tdiff-cached %2 %3)))
+     #(and (> (:value %4) 2000) (= 29 (tdiff-cached %4 %3)))
+     #(and (> (:value %5) 1900) (= 10 (tdiff-cached %4 %5)))))
   (vals (group-by :cust-id src-coll)))))
 ```
 
