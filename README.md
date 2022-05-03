@@ -84,10 +84,10 @@ Here’s a example of grouping the event data for analysis which is recommended 
  (pmap
   (fn [cust-data]
     (lfx-gr cust-data
-     #(and (> (:value %1) (:value %2)) (= 7 (tdiff %1 %2)))
-     #(and (> (:value %2) (:value %3)) (= 7 (tdiff %2 %3)))
-     #(and (> (:value %4) 2000) (= 29 (tdiff %4 %3)))
-     #(and (> (:value %5) 1900) (= 10 (tdiff %4 %5)))))
+     #(and (> (:value %1) (:value %2)) (= 7 (tdiff-cached %1 %2)))
+     #(and (> (:value %2) (:value %3)) (= 7 (tdiff-cached %2 %3)))
+     #(and (> (:value %4) 2000) (= 29 (tdiff-cached %4 %3)))
+     #(and (> (:value %5) 1900) (= 10 (tdiff-cached %4 %5)))))
   (vals (group-by :cust-id src-coll)))))
 ```
 
