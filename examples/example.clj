@@ -6,12 +6,12 @@
 ;"batch" call
 (def t1b
   (lf/lfx-s
-    src-coll
-    #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (< (:value %1) 1400) (= 21 (lf/tdiff-cached %1 %2)))
-    #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (lf/tdiff-cached %2 %3)))
-    #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 2000) (= 2 (lf/tdiff-cached %4 %3)))))
+   src-coll
+   #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (> (:value %1) 400) (= 21 (lf/tdiff-cached %1 %2)))
+   #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (lf/tdiff-cached %2 %3)))
+   #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 1 (lf/tdiff-cached %4 %3)))))
 
-;lazy call
+;lazy calls
 (clojure.pprint/pprint
  (take 1
        (lf/lfx-lazy
@@ -19,6 +19,14 @@
         #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (> (:value %1) 400) (= 21 (lf/tdiff-cached %1 %2)))
         #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (lf/tdiff-cached %2 %3)))
         #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 1 (lf/tdiff-cached %4 %3))))))
+
+(clojure.pprint/pprint
+ (nth
+  (lf/lfx-lazy
+   src-coll
+   #(and (= (:cust-id %1) (:cust-id %2)) (> (:value %1) (:value %2)) (> (:value %1) 400) (= 21 (lf/tdiff-cached %1 %2)))
+   #(and (= (:cust-id %2) (:cust-id %3)) (> (:value %3) (:value %2)) (= 1 (lf/tdiff-cached %2 %3)))
+   #(and (= (:cust-id %3) (:cust-id %4)) (> (:value %4) 200) (= 1 (lf/tdiff-cached %4 %3)))) 10))
 
 ;"grouped" call
 (def t1 (doall
@@ -32,7 +40,6 @@
   (vals (group-by :cust-id src-coll)))))
 
 ;; RESULTS HANDLING
-
 ; get results
 (def res (map #(filter not-empty %) t1))
 ; print 1st hit

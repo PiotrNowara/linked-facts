@@ -116,18 +116,17 @@
         (if (= i 0)
           (recur (pmap (fn [fact] (lf1 fact (nth filters i) initcoll)) initcoll) (inc i))
           (recur
-           (into []
-                 (r/filter
-                  not-empty
-                  (r/mapcat (fn [lvl-data-elem]
-                              (r/mapcat
-                               (fn [klist]
-                                 (pmap
-                                  (fn [last-match];events matched in previous level
-                                    (lf2+ klist last-match (nth filters i) initcoll))
-                                  (get lvl-data-elem klist)))
-                               (keys lvl-data-elem)))
-                            lfcoll)))
+           (filter
+            not-empty
+            (mapcat (fn [lvl-data-elem]
+                        (mapcat
+                         (fn [klist]
+                           (pmap
+                            (fn [last-match];events matched in previous level
+                              (lf2+ klist last-match (nth filters i) initcoll))
+                            (get lvl-data-elem klist)))
+                         (keys lvl-data-elem)))
+                      lfcoll))
            (inc i)))))))
 
 
